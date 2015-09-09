@@ -1,0 +1,27 @@
+library(shiny)
+shinyServer(
+  function(input, output){
+    sliderValues <- reactive(
+      {
+        data.frame(
+          Name = 'Integer',
+          Value = as.character(input$integer),
+          stringsAsFactors = FALSE)
+        })
+    output$values <- renderTable({
+      sliderValues()
+    })
+  }
+)
+shinyUI(fluidPage(
+  titlePanel("Sliders"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(
+        'integer', 'Integer', min = 0, max = 100,  value = 20
+      )
+    ),
+    mainPanel(
+      tableOutput("Table")
+    ))
+))
